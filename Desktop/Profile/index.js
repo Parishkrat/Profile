@@ -41,6 +41,9 @@ app.post("/send-email", async (req, res) => {
     res.json({ success: false });
   }
 });
+app.get("/", (req, res) => {
+  res.send("Portfolio API Running");
+});
 
 app.listen(Port, () => {
   console.log("Server running on port 5000");
