@@ -2,11 +2,12 @@ const express = require("express");
 const nodemailer = require("nodemailer");
 const cors = require("cors");
 require("dotenv").config();
-
+const path = require("path");
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(__dirname));
 
 const Port = process.env.PORT;
 
@@ -42,7 +43,7 @@ app.post("/send-email", async (req, res) => {
   }
 });
 app.get("/", (req, res) => {
-  res.send("Portfolio API Running");
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 app.listen(Port, () => {
