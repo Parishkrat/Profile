@@ -1711,31 +1711,10 @@
         if (e.key === "Escape") closeModal();
       });
 
-      function sendEmail() {
-        const name = document.getElementById("m-name").value.trim();
-        const email = document.getElementById("m-email").value.trim();
-        const msg = document.getElementById("m-msg").value.trim();
-        if (!name || !email || !msg) {
-          alert("Please fill in all fields.");
-          return;
-        }
-        const subject = encodeURIComponent("Hire Inquiry from " + name);
-        const body = encodeURIComponent(
-          "Hi Parishkrat,\n\nMy name is " +
-            name +
-            " (" +
-            email +
-            ").\n\n" +
-            msg +
-            "\n\nBest,\n" +
-            name,
-        );
-        window.location.href =
-          "mailto:parishkratmishra@gmail.com?subject=" +
-          subject +
-          "&body=" +
-          body;
-        closeModal();
+      function showSuccessCard() {
+        const card = document.getElementById("successCard");
+        card.classList.add("show");
+        setTimeout(() => card.classList.remove("show"), 4000);
       }
 
       async function sendEmail() {
@@ -1749,16 +1728,10 @@
         }
 
         try {
-          const response = await fetch("http://localhost:5000/send-email", {
+          const response = await fetch("/send-email", {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              name,
-              email,
-              message: msg,
-            }),
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, message: msg }),
           });
 
           const data = await response.json();
@@ -1766,16 +1739,6 @@
           if (data.success) {
             showSuccessCard();
             closeModal();
-            function showSuccessCard() {
-              const card = document.getElementById("successCard");
-
-              card.classList.add("show");
-
-              setTimeout(() => {
-                card.classList.remove("show");
-              }, 4000);
-            }
-
             document.getElementById("m-name").value = "";
             document.getElementById("m-email").value = "";
             document.getElementById("m-msg").value = "";
